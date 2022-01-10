@@ -1,59 +1,60 @@
 const util = require('util');
 const fs = require('fs');
 
-// This package will be used to generate our unique ids. https://www.npmjs.com/package/uuid
+// Use the uuid package to get ids
 const uuidv1 = require('uuid/v1');
 
+// Read & write file variables
 const readFileAsync = util.promisify(fs.readFile);
 const writeFileAsync = util.promisify(fs.writeFile);
 
-class Store {
+class Notes {
   read() {
     return readFileAsync('db/db.json', 'utf8');
   }
 
-  write(note) {
-    return writeFileAsync('db/db.json', JSON.stringify(note));
+  write(task) {
+    return writeFileAsync('db/db.json', JSON.stringify(task));
   }
 
-  getNotes() {
-    return this.read().then((notes) => {
-      let parsedNotes;
+  getTasks() {
+    return this.read().then((tasks) => {
+      let parsedTasks;
 
       // If notes isn't an array or can't be turned into one, send back a new empty array
       try {
-        parsedNotes = [].concat(JSON.parse(notes));
+        parsedTasks = [].concat(JSON.parse(tasks));
       } catch (err) {
-        parsedNotes = [];
+        parsedTasks = [];
       }
 
-      return parsedNotes;
+      return parsedTasks;
     });
   }
 
-  addNote(note) {
-    const { title, text } = note;
+  addTask(task) {
+    const { title, text } = task;
 
     if (!title || !text) {
       throw new Error("Note 'title' and 'text' cannot be blank");
     }
 
     // Add a unique id to the note using uuid package
-    const newNote = { title, text, id: uuidv1() };
+    const newTask = { title, text, id: uuidv1() };
 
     // Get all notes, add the new note, write all the updated notes, return the newNote
-    return this.getNotes()
-      .then((notes) => [...notes, newNote])
-      .then((updatedNotes) => this.write(updatedNotes))
-      .then(() => newNote);
+    return this.getTasks()
+      .then((tasks) => [...tasks, newTask])
+      .then((updatedTasks) => this.write(updatedTasks))
+      .then(() => newTask);
   }
 
-  removeNote(id) {
+  removeTask(id) {
     // Get all notes, remove the note with the given id, write the filtered notes
-    return this.getNotes()
-      .then((notes) => notes.filter((note) => note.id !== id))
-      .then((filteredNotes) => this.write(filteredNotes));
+    return this.getTasks()
+      .then((tasks) => tasks.filter((task) => task.id !== id))
+      .then((filteredTasks) => this.write(filteredTasks));
   }
 }
 
-module.exports = new Store();
+module.exports = new Notes();

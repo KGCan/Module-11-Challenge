@@ -36,3 +36,4 @@ THEN I am presented with empty fields to enter a new note title and the note’s
 * UCD Module 11 lessons
 * youtube.com
 * Class recordings from module 11
+* http://bluebirdjs.com/docs/api/promise.promisify.html
