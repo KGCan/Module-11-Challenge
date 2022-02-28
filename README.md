@@ -23,7 +23,11 @@ THEN I am presented with empty fields to enter a new note title and the note’s
 
 ## GitHub Repo URL
 
+https://github.com/KGCan/Module-11-Challenge.git
+
 ## Deployed Application URL
+
+https://kgcan.github.io/Module-11-Challenge/
 
 ## Challenge completed using the following languages:
 
