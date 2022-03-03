@@ -27,7 +27,7 @@ https://github.com/KGCan/Module-11-Challenge.git
 
 ## Deployed Application URL
 
-https://kgcan.github.io/Module-11-Challenge/
+https://git.heroku.com/type-a-task.git
 
 ## Challenge completed using the following languages:
 
