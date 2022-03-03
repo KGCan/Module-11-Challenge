@@ -36,7 +36,7 @@ class Notes {
             throw new Error("Task title and information must be completed");
         }
 
-        const newTask = { title, text, id:uuidv1() };
+        const newTask = { title, text, id:uuidPkg() };
 
         return this.getTasks()
         .then((tasks) => [...tasks, newTask])
