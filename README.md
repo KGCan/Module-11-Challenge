@@ -41,3 +41,4 @@ https://git.heroku.com/type-a-task.git
 * youtube.com
 * Class recordings from module 11
 * http://bluebirdjs.com/docs/api/promise.promisify.html
+- https://www.npmjs.com/package/uuid
