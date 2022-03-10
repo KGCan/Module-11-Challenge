@@ -33,7 +33,7 @@ const getTasks = () =>
     },
   });
 
-const saveTask = (task) =>
+const saveTask = task =>
   fetch('/api/tasks', {
     method: 'POST',
     headers: {
@@ -42,7 +42,7 @@ const saveTask = (task) =>
     body: JSON.stringify(task),
   });
 
-const deleteTask = (id) =>
+const deleteTask = id =>
   fetch(`/api/tasks/${id}`, {
     method: 'DELETE',
     headers: {
@@ -96,14 +96,14 @@ const handleTaskDelete = (e) => {
 };
 
 // Sets the activeTask and displays it
-const handleTaskView = (e) => {
+const handleTaskView = e => {
   e.preventDefault();
   activeTask = JSON.parse(e.target.parentElement.getAttribute('data-task'));
   renderActiveTask();
 };
 
 // Sets the activeTask to and empty object and allows the user to enter a new task
-const handleNewTaskView = (e) => {
+const handleNewTaskView = e => {
   activeTask = {};
   renderActiveTask();
 };
@@ -117,10 +117,10 @@ const handleRenderSaveBtn = () => {
 };
 
 // Render the list of task titles
-const renderTaskList = async (tasks) => {
+const renderTaskList = async tasks => {
   let jsonTasks = await tasks.json();
   if (window.location.pathname === '/tasks') {
-    taskList.forEach((el) => (el.innerHTML = ''));
+    taskList.forEach(el => (el.innerHTML = ''));
   }
 
   let taskListItems = [];
@@ -166,7 +166,7 @@ const renderTaskList = async (tasks) => {
   });
 
   if (window.location.pathname === '/tasks') {
-    taskListItems.forEach((task) => taskList[0].append(task));
+    taskListItems.forEach(task => taskList[0].append(task));
   }
 };
 
