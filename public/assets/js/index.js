@@ -1,15 +1,15 @@
-let noteTitle;
-let noteText;
-let saveNoteBtn;
-let newNoteBtn;
-let noteList;
+let taskTitle;
+let taskText;
+let saveTaskBtn;
+let newTaskBtn;
+let taskList;
 
-if (window.location.pathname === '/notes') {
-  noteTitle = document.querySelector('.note-title');
-  noteText = document.querySelector('.note-textarea');
-  saveNoteBtn = document.querySelector('.save-note');
-  newNoteBtn = document.querySelector('.new-note');
-  noteList = document.querySelectorAll('.list-container .list-group');
+if (window.location.pathname === '/tasks') {
+  taskTitle = document.querySelector('.task-title');
+  taskText = document.querySelector('.task-textarea');
+  saveTaskBtn = document.querySelector('.save-task');
+  newTaskBtn = document.querySelector('.new-task');
+  taskList = document.querySelectorAll('.list-container .list-group');
 }
 
 // Show an element
@@ -22,108 +22,108 @@ const hide = (elem) => {
   elem.style.display = 'none';
 };
 
-// activeNote is used to keep track of the note in the textarea
-let activeNote = {};
+// activeTask is used to keep track of the task in the textarea
+let activeTask = {};
 
-const getNotes = () =>
-  fetch('/api/notes', {
+const getTasks = () =>
+  fetch('/api/tasks', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   });
 
-const saveNote = (note) =>
-  fetch('/api/notes', {
+const saveTask = (task) =>
+  fetch('/api/tasks', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(note),
+    body: JSON.stringify(task),
   });
 
-const deleteNote = (id) =>
-  fetch(`/api/notes/${id}`, {
+const deleteTask = (id) =>
+  fetch(`/api/tasks/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
   });
 
-const renderActiveNote = () => {
-  hide(saveNoteBtn);
+const renderActiveTask = () => {
+  hide(saveTaskBtn);
 
-  if (activeNote.id) {
-    noteTitle.setAttribute('readonly', true);
-    noteText.setAttribute('readonly', true);
-    noteTitle.value = activeNote.title;
-    noteText.value = activeNote.text;
+  if (activeTask.id) {
+    taskTitle.setAttribute('readonly', true);
+    taskText.setAttribute('readonly', true);
+    taskTitle.value = activeTask.title;
+    taskText.value = activeTask.text;
   } else {
-    noteTitle.removeAttribute('readonly');
-    noteText.removeAttribute('readonly');
-    noteTitle.value = '';
-    noteText.value = '';
+    taskTitle.removeAttribute('readonly');
+    taskText.removeAttribute('readonly');
+    taskTitle.value = '';
+    taskText.value = '';
   }
 };
 
-const handleNoteSave = () => {
-  const newNote = {
-    title: noteTitle.value,
-    text: noteText.value,
+const handleTaskSave = () => {
+  const newTask = {
+    title: taskTitle.value,
+    text: taskText.value,
   };
-  saveNote(newNote).then(() => {
-    getAndRenderNotes();
-    renderActiveNote();
+  saveTask(newTask).then(() => {
+    getAndRenderTasks();
+    renderActiveTask();
   });
 };
 
-// Delete the clicked note
-const handleNoteDelete = (e) => {
+// Delete the clicked task
+const handleTaskDelete = (e) => {
   // Prevents the click listener for the list from being called when the button inside of it is clicked
   e.stopPropagation();
 
-  const note = e.target;
-  const noteId = JSON.parse(note.parentElement.getAttribute('data-note')).id;
+  const task = e.target;
+  const taskId = JSON.parse(task.parentElement.getAttribute('data-task')).id;
 
-  if (activeNote.id === noteId) {
-    activeNote = {};
+  if (activeTask.id === taskId) {
+    activeTask = {};
   }
 
-  deleteNote(noteId).then(() => {
-    getAndRenderNotes();
-    renderActiveNote();
+  deleteTask(taskId).then(() => {
+    getAndRenderTasks();
+    renderActiveTask();
   });
 };
 
-// Sets the activeNote and displays it
-const handleNoteView = (e) => {
+// Sets the activeTask and displays it
+const handleTaskView = (e) => {
   e.preventDefault();
-  activeNote = JSON.parse(e.target.parentElement.getAttribute('data-note'));
-  renderActiveNote();
+  activeTask = JSON.parse(e.target.parentElement.getAttribute('data-task'));
+  renderActiveTask();
 };
 
-// Sets the activeNote to and empty object and allows the user to enter a new note
-const handleNewNoteView = (e) => {
-  activeNote = {};
-  renderActiveNote();
+// Sets the activeTask to and empty object and allows the user to enter a new task
+const handleNewTaskView = (e) => {
+  activeTask = {};
+  renderActiveTask();
 };
 
 const handleRenderSaveBtn = () => {
-  if (!noteTitle.value.trim() || !noteText.value.trim()) {
-    hide(saveNoteBtn);
+  if (!taskTitle.value.trim() || !taskText.value.trim()) {
+    hide(saveTaskBtn);
   } else {
-    show(saveNoteBtn);
+    show(saveTaskBtn);
   }
 };
 
-// Render the list of note titles
-const renderNoteList = async (notes) => {
-  let jsonNotes = await notes.json();
-  if (window.location.pathname === '/notes') {
-    noteList.forEach((el) => (el.innerHTML = ''));
+// Render the list of task titles
+const renderTaskList = async (tasks) => {
+  let jsonTasks = await tasks.json();
+  if (window.location.pathname === '/tasks') {
+    taskList.forEach((el) => (el.innerHTML = ''));
   }
 
-  let noteListItems = [];
+  let taskListItems = [];
 
   // Returns HTML element with or without a delete button
   const createLi = (text, delBtn = true) => {
@@ -133,7 +133,7 @@ const renderNoteList = async (notes) => {
     const spanEl = document.createElement('span');
     spanEl.classList.add('list-item-title');
     spanEl.innerText = text;
-    spanEl.addEventListener('click', handleNoteView);
+    spanEl.addEventListener('click', handleTaskView);
 
     liEl.append(spanEl);
 
@@ -144,9 +144,9 @@ const renderNoteList = async (notes) => {
         'fa-trash-alt',
         'float-right',
         'text-danger',
-        'delete-note'
+        'delete-task'
       );
-      delBtnEl.addEventListener('click', handleNoteDelete);
+      delBtnEl.addEventListener('click', handleTaskDelete);
 
       liEl.append(delBtnEl);
     }
@@ -154,30 +154,30 @@ const renderNoteList = async (notes) => {
     return liEl;
   };
 
-  if (jsonNotes.length === 0) {
-    noteListItems.push(createLi('No saved Notes', false));
+  if (jsonTasks.length === 0) {
+    taskListItems.push(createLi('No saved tasks', false));
   }
 
-  jsonNotes.forEach((note) => {
-    const li = createLi(note.title);
-    li.dataset.note = JSON.stringify(note);
+  jsonTasks.forEach((task) => {
+    const li = createLi(task.title);
+    li.dataset.task = JSON.stringify(task);
 
-    noteListItems.push(li);
+    taskListItems.push(li);
   });
 
-  if (window.location.pathname === '/notes') {
-    noteListItems.forEach((note) => noteList[0].append(note));
+  if (window.location.pathname === '/tasks') {
+    taskListItems.forEach((task) => taskList[0].append(task));
   }
 };
 
-// Gets notes from the db and renders them to the sidebar
-const getAndRenderNotes = () => getNotes().then(renderNoteList);
+// Gets tasks from the db and renders them to the sidebar
+const getAndRenderTasks = () => getTasks().then(renderTaskList);
 
-if (window.location.pathname === '/notes') {
-  saveNoteBtn.addEventListener('click', handleNoteSave);
-  newNoteBtn.addEventListener('click', handleNewNoteView);
-  noteTitle.addEventListener('keyup', handleRenderSaveBtn);
-  noteText.addEventListener('keyup', handleRenderSaveBtn);
+if (window.location.pathname === '/tasks') {
+  saveTaskBtn.addEventListener('click', handleTaskSave);
+  newTaskBtn.addEventListener('click', handleNewTaskView);
+  taskTitle.addEventListener('keyup', handleRenderSaveBtn);
+  taskText.addEventListener('keyup', handleRenderSaveBtn);
 }
 
-getAndRenderNotes();
+getAndRenderTasks();

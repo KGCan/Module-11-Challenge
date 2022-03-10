@@ -5,7 +5,7 @@ body {
   padding: 0;
 }
 
-.save-note {
+.save-task {
   display: none;
 }
 
@@ -16,28 +16,28 @@ body {
   cursor: pointer;
 }
 
-.note-textarea,
-.note-title {
+.task-textarea,
+.task-title {
   color: #000000;
   width: 100%;
   outline: none;
   border: none;
 }
 
-.note-textarea {
+.task-textarea {
   resize: none;
   height: calc(100% - 63px);
   padding-top: 15px;
 }
 
-.note-title {
+.task-title {
   height: 50px;
   margin-top: 13px;
   font-size: 3rem;
 }
 
-.note-title:read-only,
-.note-textarea:read-only {
+.task-title:read-only,
+.task-textarea:read-only {
   color: #757575;
 }
 
