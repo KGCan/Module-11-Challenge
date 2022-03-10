@@ -1,9 +1,9 @@
 const router = require("express").Router();
-const tasks = require("../db/tasks.js");
+const tasks = require("../db/store");
 
 // Get ALL tasks from the database
 router.get("/tasks", (req, res) => {
-    tasks 
+    store 
     .getTasks()
     .then((tasks) => {
         return res.json(tasks);
@@ -12,7 +12,7 @@ router.get("/tasks", (req, res) => {
 });
 
 router.post("/tasks", (req, res) => {
-    tasks 
+    store 
     .addTask(req.body)
     .then((tasks) => res.json(tasks))
     .catch((err) => res.status(500).json(err));
@@ -20,7 +20,7 @@ router.post("/tasks", (req, res) => {
 
 // Delete the task with the corresponding id
 router.delete("/tasks/:id", (req, res) => {
-    tasks 
+    store 
     .removeTask(req.params.id)
     .then(() => res.json({ ok: true }))
     .catch((err) => res.status(500).json(err));
