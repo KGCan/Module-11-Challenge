@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const tasks = require("../db/tasks.html");
+const tasks = require("../db/tasks.js");
 
 // Get ALL tasks from the database
 router.get("/tasks", (req, res) => {
