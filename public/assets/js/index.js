@@ -13,12 +13,12 @@ if (window.location.pathname === '/tasks') {
 }
 
 // Show an element
-const show = (elem) => {
+const show = elem => {
   elem.style.display = 'inline';
 };
 
 // Hide an element
-const hide = (elem) => {
+const hide = elem => {
   elem.style.display = 'none';
 };
 
@@ -78,7 +78,7 @@ const handleTaskSave = () => {
 };
 
 // Delete the clicked task
-const handleTaskDelete = (e) => {
+const handleTaskDelete = e => {
   // Prevents the click listener for the list from being called when the button inside of it is clicked
   e.stopPropagation();
 
@@ -158,7 +158,7 @@ const renderTaskList = async tasks => {
     taskListItems.push(createLi('No saved tasks', false));
   }
 
-  jsonTasks.forEach((task) => {
+  jsonTasks.forEach(task => {
     const li = createLi(task.title);
     li.dataset.task = JSON.stringify(task);
 
