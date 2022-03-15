@@ -1,8 +1,8 @@
 const util = require ("util");
 const fs = require ("fs");
 
-// Using the uuid package to generate unique id's
-const uuidPkg = require ("uuid");
+// Using the uuid package to generate unique id's https://www.npmjs.com/package/uuid
+const uuidpkg = require('uuid');
 
 const readFileAsync = util.promisify(fs.readFile); 
 const writeFileAsync = util.promisify(fs.writeFile);
@@ -13,7 +13,7 @@ class Store {
     }
 
     write(task) {
-        return writeFileAsync("db.db.json", JSON.stringify(task));
+        return writeFileAsync("db/db.json", JSON.stringify(task));
     }
 
     getTasks() {
@@ -25,6 +25,7 @@ class Store {
             } catch (err) {
                 parsedTasks = [];
             }
+            
             return parsedTasks;
         });
     }
@@ -36,7 +37,7 @@ class Store {
             throw new Error("Task title and information must be completed");
         }
 
-        const newTask = { title, text, id:uuidPkg() };
+        const newTask = { title, text, id: uuidpkg() };
 
         return this.getTasks()
         .then((tasks) => [...tasks, newTask])
